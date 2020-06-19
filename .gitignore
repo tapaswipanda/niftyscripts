@@ -1,0 +1,4 @@
+NSE-Data/*.*
+archive/*.*
+logs/*.*
+*.csv
