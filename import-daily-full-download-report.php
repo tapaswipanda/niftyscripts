@@ -1,5 +1,6 @@
 <?php
 include("functions.php");
+include("config.php");
 $fileName = $argv[1];
 
 if(!$argv[2])
@@ -9,17 +10,6 @@ else $niftyIndex = $argv[2];
 echo "Generating Report for: ".$niftyIndex." \n";
 // echo "\nTradeDate :: ".$tradeDate."\n";
 //exit;
-$host_name = "127.0.0.1";
-$db_username = "root";
-$db_password = "";
-$db_name = "my_demo";
-$conn = new mysqli($host_name, $db_username, $db_password, $db_name);
-
-if ($conn->connect_error) {
-    die("ERROR: Unable to connect: " . $conn->connect_error);
-} 
-echo "\n Connected to the database.\n";
-
 
 $getNse50Sql = "SELECT GROUP_CONCAT(DISTINCT `symbol` SEPARATOR ',') as nse50 FROM nse_50 where nse_index = 'n50' OR nse_index = 'n100'";
 $getNse50Res =mysqli_query($conn, $getNse50Sql);
@@ -82,6 +72,11 @@ echo "Trade Date : ".$trade_date."\n";
 echo "Generating report for high DQ and DP...\n";
 
 // Generate watch list for the day based on DP,DQ,VOL and price breakout
+
+
+// getLastMonthDateRange($trade_date);
+
+// exit;
 
 if($niftyIndex == 'n50')
 generateDailyDqANDDpReport($trade_date);

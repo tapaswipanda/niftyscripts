@@ -38,6 +38,42 @@ function getPrevTradingDate($symbol, $currentDate) {
 
 }
 
+function getDataInDateRange($symbol, $dateRange) {
+    
+    
+    $dateInDateRange = [];
+    $dbConn = $GLOBALS['conn'];
+
+    $sqlGetAllPrevDateDate = "SELECT * FROM `daily_security_archive` 
+                                WHERE  `trading_date` <= '".$dateRange['endDate']."' AND 
+                                `trading_date` >= '".$dateRange['startDate']."' AND
+                                symbol = '$symbol' 
+                                ORDER BY `trading_date` DESC";
+
+    // if($symbol == 'COALINDIA')
+    // echo $sqlGetAllPrevDateDate;
+
+    $res  = $dbConn->query($sqlGetAllPrevDateDate);
+
+    $highPrice = 0;
+    $lowPrice = 0;
+
+    while($row = mysqli_fetch_assoc($res)) {   
+
+        if($row['high_price'] >= $highPrice)
+            $highPrice = $row['high_price'];
+        if(($row['low_price'] <= $lowPrice) || ($lowPrice == 0))
+            $lowPrice = $row['low_price'];
+
+    }
+    $dateInDateRange['high_price'] = $highPrice;
+    $dateInDateRange['low_price'] = $lowPrice;
+
+
+    return $dateInDateRange;
+}
+
+
 function getAvgDeliveryPercentage($symbol, $currentDate, $avgNoOfDay) {
     
     //print_r($instrumentSingleItemArray); 9912889487  8520027059
@@ -230,7 +266,10 @@ function generateDailyDqANDDpReport($tradeDate) {
         $sector = $row['sector'];
         $prevDateTradeData = getDataByDateAndSymbol($symbol, $prevTradeDate);
         $currDateTradeData = getDataByDateAndSymbol($symbol, $tradeDate);
+
         $hypoForNextDay = makeIntraDayHypo($prevDateTradeData, $currDateTradeData);
+
+        $rangeActivity = generateRangeComment($symbol, $tradeDate);
 
         if($prevDateTradeData == "") {
             echo "No Prev date record present for Stock ".$symbol." for date ".$tradeDate."  exiting....\n" ;
@@ -248,7 +287,8 @@ function generateDailyDqANDDpReport($tradeDate) {
             // To Get Avg delivery percentage for the stock for last 10 days
             $avgDeliveryPercentage = getAvgDeliveryPercentage($symbol, $tradeDate, 10);
 
-            $csvData[$sector][] = array($symbol, $tradeDate, $currDateTradeData['open_price'], $currDateTradeData['last_price'], $prevDateTradeData['deliverable_qty'], $currDateTradeData['deliverable_qty'], (round($currDateTradeData['deliverable_qty']/$prevDateTradeData['deliverable_qty'], 2)),  $prevDateTradeData['delivery_percentage'], $currDateTradeData['delivery_percentage'], $avgDeliveryPercentage, $bodyInsideFlag, $hypoForNextDay);
+            $tradeDateExcel = date('d/m/y', strtotime($tradeDate));
+            $csvData[$sector][] = array($symbol, $tradeDateExcel, $currDateTradeData['open_price'], $currDateTradeData['last_price'], $prevDateTradeData['deliverable_qty'], $currDateTradeData['deliverable_qty'], (round($currDateTradeData['deliverable_qty']/$prevDateTradeData['deliverable_qty'], 2)),  $prevDateTradeData['delivery_percentage'], $currDateTradeData['delivery_percentage'], $avgDeliveryPercentage, $bodyInsideFlag, $hypoForNextDay, $rangeActivity);
             
         }
 
@@ -258,7 +298,7 @@ function generateDailyDqANDDpReport($tradeDate) {
     // print_r($csvData);
     // exit;
 
-    $headerArray = ["Symbol", "Date",  "Open",	"Last",	"Prev DQ",	"Current DQ",	"Increase in DQ", "Prev DP",	"Current DP",	"Avg Per", "Is Price Inside", "Hypo", "Result", "Comment"];
+    $headerArray = ["Symbol", "Date",  "Open",	"Last",	"Prev DQ",	"Current DQ",	"Increase in DQ", "Prev DP",	"Current DP",	"Avg Per", "Inside", "S.A", "R.A", "Result", "Comment"];
 
     if (file_exists($final_csv_file)) {
         unlink($final_csv_file);
@@ -308,7 +348,9 @@ function generateDailyDqANDDpReportN100($tradeDate) {
         $sector = $row['sector'];
         $prevDateTradeData = getDataByDateAndSymbol($symbol, $prevTradeDate);
         $currDateTradeData = getDataByDateAndSymbol($symbol, $tradeDate);
+
         $hypoForNextDay = makeIntraDayHypo($prevDateTradeData, $currDateTradeData);
+        $rangeActivity = generateRangeComment($symbol, $tradeDate);
 
         if($prevDateTradeData == "") {
             echo "No Prev date record present for Stock ".$symbol." for date ".$tradeDate."  exiting....\n" ;
@@ -325,8 +367,8 @@ function generateDailyDqANDDpReportN100($tradeDate) {
 
             // To Get Avg delivery percentage for the stock for last 10 days
             $avgDeliveryPercentage = getAvgDeliveryPercentage($symbol, $tradeDate, 10);
-
-            $csvData[$sector][] = array($symbol, $nse_index, $tradeDate, $currDateTradeData['open_price'], $currDateTradeData['last_price'], $prevDateTradeData['deliverable_qty'], $currDateTradeData['deliverable_qty'], (round($currDateTradeData['deliverable_qty']/$prevDateTradeData['deliverable_qty'], 2)),  $prevDateTradeData['delivery_percentage'], $currDateTradeData['delivery_percentage'], $avgDeliveryPercentage, $bodyInsideFlag, $hypoForNextDay);
+            $tradeDateExcel = date('d/m/y', strtotime($tradeDate));
+            $csvData[$sector][] = array($symbol, $nse_index, $tradeDateExcel, $currDateTradeData['open_price'], $currDateTradeData['last_price'], $prevDateTradeData['deliverable_qty'], $currDateTradeData['deliverable_qty'], (round($currDateTradeData['deliverable_qty']/$prevDateTradeData['deliverable_qty'], 2)),  $prevDateTradeData['delivery_percentage'], $currDateTradeData['delivery_percentage'], $avgDeliveryPercentage, $bodyInsideFlag, $hypoForNextDay, $rangeActivity);
             
         }
 
@@ -336,7 +378,7 @@ function generateDailyDqANDDpReportN100($tradeDate) {
     // print_r($csvData);
     // exit;
 
-    $headerArray = ["Symbol", "Index", "Date",	"Open", "Last",	"Prev DQ",	"Current DQ",	"Increase in DQ", "Prev DP",	"Current DP", "Avg Per", "Is Price Inside", "Hypo", "Result", "Comment"];
+    $headerArray = ["Symbol", "Index", "Date",	"Open", "Last",	"Prev DQ",	"Current DQ",	"Increase in DQ", "Prev DP",	"Current DP", "Avg Per", "Inside", "S.A", "R.A", "Result", "Comment"];
 
     if (file_exists($final_csv_file)) {
         unlink($final_csv_file);
@@ -431,6 +473,86 @@ function pushFileForDownload($filePath) {
         http_response_code(404);
         die();
     }
+}
+
+
+function getLastWeekDateRange($curDate) {
+
+    $dateRange = ["startDate" => $curDate, "endDate" => $curDate];
+    
+    //echo date("2020-06-15", strtotime('last week'));
+
+    //print date('Y-m-d', strtotime('sunday', strtotime("last week  $curDate")));
+
+    $dateRange['startDate'] = date('Y-m-d', strtotime('monday', strtotime("last week  $curDate")));
+
+    $dateRange['endDate'] =  date('Y-m-d', strtotime('sunday', strtotime("last week  $curDate")));
+    
+    // echo  "\n";
+    // print_r($dateRange);
+
+    return $dateRange;
+}
+
+function getLastMonthDateRange($curDate) {
+
+    $dateRange = ["startDate" => $curDate, "endDate" => $curDate];
+    
+    //echo date("2020-06-15", strtotime('last week'));
+
+    //print date('Y-m-d', strtotime("last day of last month  2020-05-25"));
+
+    $dateRange['startDate'] = date('Y-m-d', strtotime("first day of last month  $curDate"));
+
+    $dateRange['endDate'] =  date('Y-m-d', strtotime("last day of last month  $curDate"));
+    
+    // echo  "\n";
+    // print_r($dateRange);
+
+    return $dateRange;
+}
+
+function generateRangeComment($symbol, $tradeDate) {
+
+    $ranegActivity = "";
+
+    $currDateTradeData = getDataByDateAndSymbol($symbol, $tradeDate);
+
+    /* Get weekly Range Activity */
+    $lastWeekRange = getLastWeekDateRange($tradeDate);
+
+    $lastWeekRangeData = getDataInDateRange($symbol, $lastWeekRange);
+
+    if(($currDateTradeData['high_price'] >= $lastWeekRangeData['high_price']) && 
+        ($currDateTradeData['last_price'] <= $lastWeekRangeData['high_price'])) {
+        $ranegActivity  .= "Rejected From Last Week High."; 
+    }
+
+    if(($currDateTradeData['low_price'] <= $lastWeekRangeData['low_price']) && 
+        ($currDateTradeData['last_price'] >= $lastWeekRangeData['low_price'])) {
+        $ranegActivity  .= "Supported From Last Week Low."; 
+    }
+
+
+    /* Get weekly Range Activity */
+    $lastMonthRange = getLastMonthDateRange($tradeDate);
+
+    $lastMonthRangeData = getDataInDateRange($symbol, $lastMonthRange);
+
+    // if($symbol == "COALINDIA")
+    // print_r($lastMonthRangeData);
+
+    if(($currDateTradeData['high_price'] >= $lastMonthRangeData['high_price']) && 
+        ($currDateTradeData['last_price'] <= $lastMonthRangeData['high_price'])) {
+        $ranegActivity  .= "Rejected From Last Month High."; 
+    }
+
+    if(($currDateTradeData['low_price'] <= $lastMonthRangeData['low_price']) && 
+        ($currDateTradeData['last_price'] >= $lastMonthRangeData['low_price'])) {
+        $ranegActivity  .= "Supported From Last Month Low."; 
+    }
+
+    return $ranegActivity;
 }
 
 ?>
