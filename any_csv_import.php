@@ -1,4 +1,8 @@
 <?php
+/*
+File Name: any_csv_import.php
+Desc: This files can be used to parse any csv file and output to DB, need to edit and adjust each time based on the json format and DB tables
+*/
 // include("functions.php");
 // $fileName = $argv[1];
 // echo "\nTradeDate :: ".$tradeDate."\n";

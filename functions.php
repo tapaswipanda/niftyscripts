@@ -48,26 +48,35 @@ function getDataInDateRange($symbol, $dateRange) {
                                 WHERE  `trading_date` <= '".$dateRange['endDate']."' AND 
                                 `trading_date` >= '".$dateRange['startDate']."' AND
                                 symbol = '$symbol' 
-                                ORDER BY `trading_date` DESC";
+                                ORDER BY `trading_date` ASC";
 
     // if($symbol == 'COALINDIA')
-    // echo $sqlGetAllPrevDateDate;
+    //echo $sqlGetAllPrevDateDate;
 
     $res  = $dbConn->query($sqlGetAllPrevDateDate);
 
     $highPrice = 0;
     $lowPrice = 0;
+    $totalVol = 0;
 
-    while($row = mysqli_fetch_assoc($res)) {   
+    while($row = mysqli_fetch_assoc($res)) {
 
         if($row['high_price'] >= $highPrice)
             $highPrice = $row['high_price'];
         if(($row['low_price'] <= $lowPrice) || ($lowPrice == 0))
             $lowPrice = $row['low_price'];
+        
+        $totalVol +=  $row['total_trade_quantity']; 
+        
+        $dateInDateRange['last_price'] = $row['last_price'];
+
+            
 
     }
     $dateInDateRange['high_price'] = $highPrice;
     $dateInDateRange['low_price'] = $lowPrice;
+
+    $dateInDateRange['total_vol'] = $totalVol;
 
 
     return $dateInDateRange;
@@ -133,7 +142,7 @@ function checkIfHighDeliveryAndPercentage($parentData, $childData) {
 
     if(($childData['deliverable_qty'] > $parentData['deliverable_qty']) &&
          ($childData['delivery_percentage'] > $parentData['delivery_percentage']) && 
-         ($childData['total_trade_quantity'] > $parentData['total_trade_quantity']) ) {
+         ($childData['total_trade_quantity'] >= $parentData['total_trade_quantity']) ) {
             $highDeliveryWithPercentage = 1;
 
     }
@@ -475,6 +484,32 @@ function pushFileForDownload($filePath) {
     }
 }
 
+/*
+Desc: It generates CVS file from an array.
+Inputs:
+Headerarray - coloumns of the csv file
+dataArray - data in array
+FileName - File to write data into
+*/
+function generateCSVFileFromArray($headerArray, $dataArray, $fileName) {
+    
+    if (file_exists($fileName)) {
+        unlink($fileName);
+    }
+    
+    $fp = fopen($fileName, 'wb');
+
+    fputcsv($fp, $headerArray, ',');
+
+    foreach ($dataArray as $key => $line) {
+        // echo "\n";
+        // print_r($line);
+        // echo "\n";
+        fputcsv($fp, $line, ',');
+    }
+
+    fclose($fp);
+}
 
 function getLastWeekDateRange($curDate) {
 
@@ -494,6 +529,24 @@ function getLastWeekDateRange($curDate) {
     return $dateRange;
 }
 
+function getCurrentWeekDateRange($curDate) {
+
+    $dateRange = ["startDate" => $curDate, "endDate" => $curDate];
+    
+    //echo date("2020-06-15", strtotime('last week'));
+
+    //print date('Y-m-d', strtotime('sunday', strtotime("last week  $curDate")));
+    //$curDate = "2020-07-12";
+    $dateRange['startDate'] = date('Y-m-d', strtotime(' last monday', strtotime($curDate)));
+
+    $dateRange['endDate'] =  date('Y-m-d', strtotime(' last friday', strtotime($curDate)));
+    
+    // echo  "\n";
+    // print_r($dateRange);
+    return $dateRange;
+}
+
+
 function getLastMonthDateRange($curDate) {
 
     $dateRange = ["startDate" => $curDate, "endDate" => $curDate];
@@ -511,6 +564,34 @@ function getLastMonthDateRange($curDate) {
 
     return $dateRange;
 }
+
+function isWeekend($date) {
+    $weekendFlag = 0;
+    $weekendFlag = (date('N', strtotime($date)) >= 6)?1:0;
+    return $weekendFlag;
+}
+
+function dateDisplay($date) {
+    return date('d/m/y', strtotime($date));
+}
+
+function dateCompare($startDate, $endDate) {
+    
+    $startTime = strtotime($startDate);
+    $endTime = strtotime($endDate);
+
+    if($endTime > $startTime)
+    return 1;
+
+    return 0;
+}
+
+function checkValidDate($date) {
+    $tempDate = explode('-', $date);
+    // checkdate(month, day, year)
+    return checkdate($tempDate[1], $tempDate[2], $tempDate[0]);
+  }
+
 
 function generateRangeComment($symbol, $tradeDate) {
 
@@ -554,5 +635,90 @@ function generateRangeComment($symbol, $tradeDate) {
 
     return $ranegActivity;
 }
+
+
+
+
+function generateWeekVolGainer($curDate) {
+    
+    //$curDate = "2020-07-12";
+
+    $isWeekEnd  = isWeekend($curDate);
+
+    $lastWeekRange = $isWeekEnd ? getCurrentWeekDateRange($curDate) : getLastWeekDateRange($curDate);
+
+    $lastTwoWeekRange = getLastWeekDateRange($lastWeekRange['startDate']);
+
+
+    // $lastWeekData = getDataInDateRange('Infy', $lastWeekRange);
+    // $lastTwoWeekData = getDataInDateRange('Infy', $lastTwoWeekRange);
+
+    $niftyIndexStocks = getNiftyIndexStocks('n50');
+
+    $weekActivityReport = [];
+    $i = 0;
+    foreach($niftyIndexStocks as $stock) {
+
+        // Get latest week data
+        $currentWeekData = getDataInDateRange($stock, $lastWeekRange);
+
+        // Get prev week data
+        $lastWeekData = getDataInDateRange($stock, $lastTwoWeekRange);  
+
+        $weekActivityReport[$stock]['symbol'] = $stock;
+        $weekActivityReport[$stock]['date'] = dateDisplay($curDate);
+        $weekActivityReport[$stock]['current_vol'] = $currentWeekData['total_vol'];
+        $weekActivityReport[$stock]['Prev_vol'] = $lastWeekData['total_vol'];
+        
+        $weekActivityReport[$stock]['vol_ratio'] = $currentWeekData['total_vol']/ $lastWeekData['total_vol'];
+        $weekActivityReport[$stock]['percentage_change_in_price'] = (($currentWeekData['last_price'] - $lastWeekData['last_price'])/$lastWeekData['last_price']) * 100;
+
+        
+        $weekActivityReport[$stock]['prev_LTP'] = $lastWeekData['last_price'];
+        $weekActivityReport[$stock]['curr_LTP'] = $currentWeekData['last_price'];
+
+        $weekActivityReport[$stock]['high_price'] = $currentWeekData['high_price'];
+        $weekActivityReport[$stock]['low_price'] = $currentWeekData['low_price'];
+
+        // $i++;
+        // if($i > 1)
+        // break;
+    }
+
+    $headerArray = ["Symbol", "Date",  "Prev Vol",	"Curr Vol",	"Ratio", "% Price", "Prev LTP", "Curr LTP", "High", "Low"];
+    
+    $fileName = $GLOBALS['weekVolReport'];
+
+    generateCSVFileFromArray($headerArray, $weekActivityReport, $fileName);
+    
+    // echo  "\n";
+    // print_r($lastWeekRange);
+    // print_r($lastTwoWeekRange);
+    //return $dateRange;
+} 
+
+// return all stocks in a Index in an array, n50, n100
+function getNiftyIndexStocks($nIndex) {
+    
+    $dbConn = $GLOBALS['conn'];
+
+    if($nIndex == 'n100')
+    $nIndex = "('n50', 'n100')";
+    else
+    $nIndex = "('n50')";
+
+    $getNse50Sql = "SELECT GROUP_CONCAT(DISTINCT `symbol` SEPARATOR ',') AS nse50 FROM nse_50 where nse_index IN $nIndex";
+    
+    //echo $getNse50Sql;
+    $getNse50Res =mysqli_query($dbConn, $getNse50Sql);
+
+    $getNse50Row =  mysqli_fetch_assoc($getNse50Res);
+    //echo $getNse50Row['nse50'];
+    $nseIndexArray = explode(',', $getNse50Row['nse50']);
+    //print_r($nseIndexArray);
+
+    return $nseIndexArray;
+} 
+
 
 ?>

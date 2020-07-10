@@ -12,6 +12,8 @@ if ($conn->connect_error) {
 
 $todayDate = date("d-m-Y");
 
+$weekReportStartDate = "2020-05-17";
+
 $bhavDataFullUrl = "https://www1.nseindia.com/products/content/sec_bhavdata_full.csv";
 
 $bhavDataFullfileName = "NSE-Data/Full-dowload-report/bhavCopy_".$todayDate.".csv";
@@ -19,6 +21,9 @@ $bhavDataFullfileName = "NSE-Data/Full-dowload-report/bhavCopy_".$todayDate.".cs
 $finalDailyListN50 = "NSE-Data/Full-dowload-report/shortlist/shortlist_n50_".$todayDate.".csv"; 
 
 $finalDailyListN100 = "NSE-Data/Full-dowload-report/shortlist/shortlist_n100_".$todayDate.".csv"; 
+
+$weekVolReport = "NSE-Data/Full-dowload-report/weekly/vol_report_".$todayDate.".csv"; 
+
 
 
 

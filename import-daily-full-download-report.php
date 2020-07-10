@@ -1,7 +1,20 @@
 <?php
+/*
+File Name: import-daily-full-download-report.php
+Desc: This file used to from cmd to generate daily report for n50 and n100 
+Cmd: php import-daily-full-download-report.php filename n50
+*/
+
 include("functions.php");
 include("config.php");
 $fileName = $argv[1];
+
+
+// generateWeekVolGainer('');
+
+// exit;
+
+
 
 if(!$argv[2])
 $niftyIndex = 'n50';
@@ -74,9 +87,7 @@ echo "Generating report for high DQ and DP...\n";
 // Generate watch list for the day based on DP,DQ,VOL and price breakout
 
 
-// getLastMonthDateRange($trade_date);
 
-// exit;
 
 if($niftyIndex == 'n50')
 generateDailyDqANDDpReport($trade_date);
