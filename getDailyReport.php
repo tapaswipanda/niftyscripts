@@ -29,7 +29,7 @@ if(!$fileDownload) {
 
 
 
-$getNse50Sql = "SELECT GROUP_CONCAT(DISTINCT `symbol` SEPARATOR ',') as nse50 FROM nse_50 where nse_index = 'n50' OR nse_index = 'n100'";
+$getNse50Sql = "SELECT GROUP_CONCAT(DISTINCT `symbol` SEPARATOR ',') as nse50 FROM nse_index where nse_index = 'n50' OR nse_index = 'n100'";
 $getNse50Res =mysqli_query($conn, $getNse50Sql);
 // echo $getNse50Sql;
 // exit;
