@@ -1,5 +1,5 @@
 <?php
-/*
+/* 
 File Name: import_pre_open-date.php
 Arg: take date are params, like 2020-08-15
 Desc: Used to download pre-open data and import in to DB 
@@ -16,7 +16,16 @@ include("config.php");
 // }
 //$fileDownload = downloadFile($bhavDataFullfileName, $bhavDataFullUrl);
 
-$curDate = $argv[1];
+$nIndex = "n200";
+
+if (isset($argv[1])) {
+    $curDate = $argv[1];  
+} else 
+    $curDate = date('Y-m-d');
+
+echo $curDate;
+// exit;
+
 $dateformateFile = date('d-M-Y', strtotime($curDate));
 $dateformateDB = date('Y-m-d', strtotime($curDate));
 
@@ -24,24 +33,44 @@ $preOpenDatafileName = "NSE-Data/Pre-Open/MW-Pre-Open-Market-".$dateformateFile.
 
 if (!file_exists($preOpenDatafileName)) {
    echo "File not exists, Please check and try again....";
+   exit;
 }
 
+// This is to delete first 10 lines of the file since this headers are not in proper csv format
+//$content = file($preOpenDatafileName);
+// array_splice($content, 0, 10);
+// file_put_contents($preOpenDatafileName, $content);
+
+// reading file in read mode
 $file = fopen($preOpenDatafileName, "r");
 
-
 $i = 0;
+$line = 1;
 
 while (($getData = fgetcsv($file, 10000, ",")) !== FALSE) {
+
+    $line++;
+
+    // // to ignore first 10 line, since it its the headetr and also not in proper csv format
+    if($line < 10)
+    continue;
 
     // var_dump($getData);
     // break;
 
-    // ignoring the first row
-    if(strtolower($getData[0]) == strtolower('symbol')) {
-        continue;
-    }
-
     //echo $trade_date."\n";
+    $bad_symbols = array(",");
+
+    $prev_close = str_replace($bad_symbols, "", $getData[1]);
+    $iep_price = str_replace($bad_symbols, "", $getData[1]);
+    $change_abs = str_replace($bad_symbols, "", $getData[3]);
+    $change_percentage = str_replace($bad_symbols, "", $getData[4]);
+    $final_price = str_replace($bad_symbols, "", $getData[5]);
+    $final_quantity = str_replace($bad_symbols, "", $getData[6]);
+    $trade_value = str_replace($bad_symbols, "", $getData[7]);
+    $m_cap = str_replace($bad_symbols, "", $getData[8]);
+    $n52_week_high = str_replace($bad_symbols, "", $getData[9]);
+    $n52_week_low = str_replace($bad_symbols, "", $getData[10]);
 
     $mCapRatio = $getData[8]/$getData[7];
     $prevCurrVolRatio = 1;
@@ -50,14 +79,16 @@ while (($getData = fgetcsv($file, 10000, ",")) !== FALSE) {
     change_percentage, final_price, 	final_quantity, trade_value, m_cap, 52_week_high, 52_week_low,
      mcap_vol_ratio, curr_and_prev_vol_ratio) 
     VALUES 
-    ('".$getData[0]."','".$dateformateDB."','".$getData[1]."','".$getData[2]."','".$getData[3]."','".
-    $getData[4]."','".$getData[5]."','".$getData[6]."','".$getData[7]."','".$getData[8]."','".
-    $getData[9]."','".$getData[10]."','".$mCapRatio."','".$prevCurrVolRatio."')";
+    ('".$getData[0]."','".$dateformateDB."','".$prev_close."','".$iep_price."','".$change_abs."','".
+    $change_percentage."','".$final_price."','".$final_quantity."','".$trade_value."','".$m_cap."','".
+    $n52_week_high."','".$n52_week_low."','".$mCapRatio."','".$prevCurrVolRatio."')";
       
+    // if($getData[0]  == "DRREDDY") {
+    //     echo $sql;
+    // }
 
     //echo $sql;
     $result = mysqli_query($conn, $sql);
-    //exit;
 
     if($result)
     $i++;
@@ -66,6 +97,12 @@ while (($getData = fgetcsv($file, 10000, ",")) !== FALSE) {
     // exit;
 }
 
+analysePreOpenData($dateformateDB, $nIndex);
+// analyse pre-open data and update DB, total 139 fno stocks
+if($i != 139) {
+    echo "There is some issue in importing preopen data, Not all records imported";
+    exit;
+}
 
 echo "\n $i Records  Inserted successfully.\n";
 

@@ -1,0 +1,501 @@
+2020-08-27
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-25 for date 2020-08-26 evaluate on 2020-08-27
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-20 for date 2020-08-26 evaluate on 2020-08-27
+
+ An Valid Range found with mother candle  : 2020-08-20 evaluate on 2020-08-27
+
+ Pre Open Price: 411.6 High Price:419.85 Low Price:400.1 Action: 
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-20 for date 2020-08-26 evaluate on 2020-08-27
+
+ An Valid Range found with mother candle  : 2020-08-20 evaluate on 2020-08-27
+
+ Pre Open Price: 202 High Price:201.3 Low Price:196.85 Action: buy
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-25 for date 2020-08-26 evaluate on 2020-08-27
+
+ An Valid Range found with mother candle  : 2020-08-25 evaluate on 2020-08-27
+
+ Pre Open Price: 750.8 High Price:758 Low Price:745.25 Action: 
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-25 for date 2020-08-26 evaluate on 2020-08-27
+
+ An Valid Range found with mother candle  : 2020-08-25 evaluate on 2020-08-27
+
+ Pre Open Price: 4442.4 High Price:4492.4 Low Price:4420 Action: 
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-25 for date 2020-08-26 evaluate on 2020-08-27
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-21 for date 2020-08-26 evaluate on 2020-08-27
+
+ An Valid Range found with mother candle  : 2020-08-21 evaluate on 2020-08-27
+
+ Pre Open Price: 670.15 High Price:683 Low Price:668.9 Action: 
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-24 for date 2020-08-26 evaluate on 2020-08-27
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-25 for date 2020-08-26 evaluate on 2020-08-27
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-25 for date 2020-08-26 evaluate on 2020-08-27
+
+ An Valid Range found with mother candle  : 2020-08-25 evaluate on 2020-08-27
+
+ Pre Open Price: 2182.1 High Price:2197.9 Low Price:2175 Action: 
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-25 for date 2020-08-26 evaluate on 2020-08-27
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-24 for date 2020-08-26 evaluate on 2020-08-27
+
+ An Valid Range found with mother candle  : 2020-08-24 evaluate on 2020-08-27
+
+ Pre Open Price: 88.15 High Price:89.4 Low Price:88.1 Action: 
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-20 for date 2020-08-26 evaluate on 2020-08-27
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-20 for date 2020-08-26 evaluate on 2020-08-27
+
+ An Valid Range found with mother candle  : 2020-08-20 evaluate on 2020-08-27
+
+ Pre Open Price: 81.8 High Price:83.25 Low Price:77.9 Action: 
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-25 for date 2020-08-26 evaluate on 2020-08-27
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-25 for date 2020-08-26 evaluate on 2020-08-27
+
+ An Valid Range found with mother candle  : 2020-08-25 evaluate on 2020-08-27
+
+ Pre Open Price: 528.95 High Price:535.15 Low Price:523.45 Action: 
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-25 for date 2020-08-26 evaluate on 2020-08-27
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-25 for date 2020-08-26 evaluate on 2020-08-27
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-25 for date 2020-08-26 evaluate on 2020-08-27
+
+ An Valid Range found with mother candle  : 2020-08-25 evaluate on 2020-08-27
+
+ Pre Open Price: 273 High Price:274.7 Low Price:269.35 Action: 
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-25 for date 2020-08-26 evaluate on 2020-08-27
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-25 for date 2020-08-26 evaluate on 2020-08-27
+
+ An Valid Range found with mother candle  : 2020-08-25 evaluate on 2020-08-27
+
+ Pre Open Price: 222 High Price:226.2 Low Price:221.1 Action: 
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-25 for date 2020-08-26 evaluate on 2020-08-27
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-21 for date 2020-08-26 evaluate on 2020-08-27
+
+ An Valid Range found with mother candle  : 2020-08-21 evaluate on 2020-08-27
+
+ Pre Open Price: 48.8 High Price:48.85 Low Price:47.7 Action: 
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-24 for date 2020-08-26 evaluate on 2020-08-27
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-25 for date 2020-08-26 evaluate on 2020-08-27
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-21 for date 2020-08-26 evaluate on 2020-08-27
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-25 for date 2020-08-26 evaluate on 2020-08-27
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-21 for date 2020-08-26 evaluate on 2020-08-27
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-24 for date 2020-08-26 evaluate on 2020-08-27
+
+ An Valid Range found with mother candle  : 2020-08-24 evaluate on 2020-08-27
+
+ Pre Open Price: 394.75 High Price:397.7 Low Price:387.95 Action: 
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-25 for date 2020-08-26 evaluate on 2020-08-27
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-25 for date 2020-08-26 evaluate on 2020-08-27
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-25 for date 2020-08-26 evaluate on 2020-08-27
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-25 for date 2020-08-26 evaluate on 2020-08-27
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-24 for date 2020-08-26 evaluate on 2020-08-27
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-25 for date 2020-08-26 evaluate on 2020-08-27
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-25 for date 2020-08-26 evaluate on 2020-08-27
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-21 for date 2020-08-26 evaluate on 2020-08-27
+
+ An Valid Range found with mother candle  : 2020-08-21 evaluate on 2020-08-27
+
+ Pre Open Price: 117.45 High Price:121.85 Low Price:116.85 Action: 
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-25 for date 2020-08-26 evaluate on 2020-08-27
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-21 for date 2020-08-26 evaluate on 2020-08-27
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-20 for date 2020-08-26 evaluate on 2020-08-27
+
+ An Valid Range found with mother candle  : 2020-08-20 evaluate on 2020-08-27
+
+ Pre Open Price: 1464 High Price:1449.75 Low Price:1416.05 Action: buy
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-24 for date 2020-08-26 evaluate on 2020-08-27
+
+ An Valid Range found with mother candle  : 2020-08-24 evaluate on 2020-08-27
+
+ Pre Open Price: 99 High Price:102.35 Low Price:97.5 Action: 
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-24 for date 2020-08-26 evaluate on 2020-08-27
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-25 for date 2020-08-26 evaluate on 2020-08-27
+
+ An Valid Range found with mother candle  : 2020-08-25 evaluate on 2020-08-27
+
+ Pre Open Price: 843.95 High Price:865.95 Low Price:837.85 Action: 
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-21 for date 2020-08-26 evaluate on 2020-08-27
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-21 for date 2020-08-26 evaluate on 2020-08-27
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-20 for date 2020-08-26 evaluate on 2020-08-27
+
+ An Valid Range found with mother candle  : 2020-08-20 evaluate on 2020-08-27
+
+ Pre Open Price: 1400 High Price:1396 Low Price:1347.5 Action: buy
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-25 for date 2020-08-26 evaluate on 2020-08-27
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-25 for date 2020-08-26 evaluate on 2020-08-27
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-24 for date 2020-08-26 evaluate on 2020-08-27
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-25 for date 2020-08-26 evaluate on 2020-08-27
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-25 for date 2020-08-26 evaluate on 2020-08-27
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-21 for date 2020-08-26 evaluate on 2020-08-27
+
+ An Valid Range found with mother candle  : 2020-08-21 evaluate on 2020-08-27
+
+ Pre Open Price: 1133.9 High Price:1157.9 Low Price:1122.5 Action: 
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-20 for date 2020-08-26 evaluate on 2020-08-27
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-24 for date 2020-08-26 evaluate on 2020-08-27
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-24 for date 2020-08-26 evaluate on 2020-08-27
+
+ An Valid Range found with mother candle  : 2020-08-24 evaluate on 2020-08-27
+
+ Pre Open Price: 26 High Price:26.15 Low Price:24.6 Action: 
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-24 for date 2020-08-26 evaluate on 2020-08-27
+
+ An Valid Range found with mother candle  : 2020-08-24 evaluate on 2020-08-27
+
+ Pre Open Price: 489.95 High Price:493.95 Low Price:483.5 Action: 
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-24 for date 2020-08-26 evaluate on 2020-08-27
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-25 for date 2020-08-26 evaluate on 2020-08-27
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-24 for date 2020-08-26 evaluate on 2020-08-27
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-25 for date 2020-08-26 evaluate on 2020-08-27
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-25 for date 2020-08-26 evaluate on 2020-08-27
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-24 for date 2020-08-26 evaluate on 2020-08-27
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-25 for date 2020-08-26 evaluate on 2020-08-27
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-25 for date 2020-08-26 evaluate on 2020-08-27
+
+ An Valid Range found with mother candle  : 2020-08-25 evaluate on 2020-08-27
+
+ Pre Open Price: 37.85 High Price:38.05 Low Price:36.15 Action: 
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-24 for date 2020-08-26 evaluate on 2020-08-27
+
+ An Valid Range found with mother candle  : 2020-08-24 evaluate on 2020-08-27
+
+ Pre Open Price: 112.55 High Price:113.75 Low Price:110.8 Action: 
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-25 for date 2020-08-26 evaluate on 2020-08-27
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-21 for date 2020-08-26 evaluate on 2020-08-27
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-21 for date 2020-08-26 evaluate on 2020-08-27
+
+ An Valid Range found with mother candle  : 2020-08-21 evaluate on 2020-08-27
+
+ Pre Open Price: 729.45 High Price:738.65 Low Price:718.7 Action: 
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-25 for date 2020-08-26 evaluate on 2020-08-27
+
+ Prev session day : 2020-08-26
+
+ Mother candle  : 2020-08-24 for date 2020-08-26 evaluate on 2020-08-27
+
+ Prev session day : 2020-08-26
+
+ 139 Records  Inserted successfully.
+Completed!!.

@@ -10,11 +10,11 @@ include("config.php");
 $nIndex = "n200";
 
 // for single date
-analysePreOpenDate('2020-08-10', $nIndex);
+analysePreOpenData('2020-09-01', $nIndex);
 exit;
 
-$dateRangeArray['startDate'] = '2019-10-20';
-$dateRangeArray['endDate'] = '2020-08-07';
+$dateRangeArray['startDate'] = '2019-10-19';
+$dateRangeArray['endDate'] = '2020-08-20';
 
 $dataInDateRange = getAllTradingDaysInDateRange($dateRangeArray);
 
@@ -22,7 +22,7 @@ if(count($dataInDateRange) > 0) {
 
     foreach ($dataInDateRange as $tradeDate) {
         echo "\n Updating for date : ".$tradeDate." time :".date('H:i:s.')."\n";
-        analysePreOpenDate($tradeDate, $nIndex);
+        analysePreOpenData($tradeDate, $nIndex);
     }
 }
 

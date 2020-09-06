@@ -12,43 +12,29 @@ include("config.php");
 //from date
 //https://archives.nseindia.com/products/content/sec_bhavdata_full_30092019.csv
 
-$begin = new DateTime('2020-08-06');
-$end = new DateTime('2020-08-08');
+$begin = new DateTime('2020-09-03');
+$end = new DateTime('2020-09-04');
+$nIndex = "n200";
 
 $interval = DateInterval::createFromDateString('1 day');
 $period = new DatePeriod($begin, $interval, $end);
 
-
 foreach ($period as $dt) {
+
     //echo "in for loop ";
     $curDate = $dt->format("Y-m-d");
-    //echo "\n".$curDate;
+    echo "\n".$curDate;
+
+    continue;
+
     $isWeekEnd = isWeekend($curDate);
     //if($isWeekEnd) echo "  - Weekend";
 
     $isNseHoliday = isNseHoliday($curDate);
     //if($isNseHoliday) echo "  - Holiday";
 
-    if(!$isWeekEnd && !$isNseHoliday) {        
-
-        $dateFormatUrl = date('dmY', strtotime($curDate));
-        $dateFormatFile = date('Y-M-d', strtotime($curDate));
-
-        $dayWiseDataFileName = "NSE-Data/Full-dowload-report/history1/".$dateFormatFile.".csv";
-
-        $fullDataDownloadURL = "https://archives.nseindia.com/products/content/sec_bhavdata_full_".$dateFormatUrl.".csv";
-        //echo "\n".$fullDataDownloadURL;
-
-        if (file_exists($dayWiseDataFileName)) {
-            unlink($dayWiseDataFileName);
-        }
-
-        $fileDownload = downloadFile($dayWiseDataFileName, $fullDataDownloadURL);
-
-        if(!$fileDownload) {
-            echo "\n".$fullDataDownloadURL." -   Not able to download";
-            exit;
-        }
+    if(!$isWeekEnd && !$isNseHoliday) {
+        downloadAndProcessFullBhavCopyReport($curDate,  $nIndex);
     }
     
 }

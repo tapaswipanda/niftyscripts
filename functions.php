@@ -1,4 +1,7 @@
 <?php
+include("common/bhav_copy_full_daily.php");
+include("common/date_range_fun.php");
+include("common/preopen_analysis_fun.php");
 
 function getPrevTradingDate($symbol, $currentDate) {
     
@@ -6,20 +9,20 @@ function getPrevTradingDate($symbol, $currentDate) {
     $prevTradingDate = '';
     $dbConn = $GLOBALS['conn'];
 
-    // SELECT STR_TO_DATE(`trading_date`, '%Y-%m-%d') FROM `daily_security_archive` 
+    // SELECT STR_TO_DATE(`trading_date`, '%Y-%m-%d') FROM `security_vol_devlivery_day_wise` 
     // WHERE  STR_TO_DATE(`trading_date`, '%Y-%m-%d') < STR_TO_DATE('2020-05-13', '%Y-%m-%d') AND 
     // symbol = 'INFY' 
     // ORDER BY `id` DESC LIMIT 1
 
 
-    // SELECT STR_TO_DATE(`trading_date`, '%Y-%m-%d') FROM `daily_security_archive` 
+    // SELECT STR_TO_DATE(`trading_date`, '%Y-%m-%d') FROM `security_vol_devlivery_day_wise` 
     // WHERE  UNIX_TIMESTAMP(`trading_date`) < UNIX_TIMESTAMP('2020-01-03') AND 
     // symbol = 'INFY' 
     // ORDER BY `id` DESC LIMIT 1
     
     // $currentDate = '2020-05-14';
     // $symbol = '2020-05-14'; 
-    $sqlGetAllPrevDateDate = "SELECT * FROM `daily_security_archive` 
+    $sqlGetAllPrevDateDate = "SELECT * FROM `security_vol_devlivery_day_wise` 
                                 WHERE  `trading_date` < '$currentDate' AND 
                                 symbol = '$symbol' 
                                 ORDER BY `trading_date` DESC LIMIT 1";
@@ -50,7 +53,7 @@ function getAllTradingDaysInDateRange($dateRange) {
 
     $symbol = "INFY";
 
-    $sqlGetAllPrevDateDate = "SELECT trading_date FROM `daily_security_archive` 
+    $sqlGetAllPrevDateDate = "SELECT trading_date FROM `security_vol_devlivery_day_wise` 
                                 WHERE  `trading_date` <= '".$dateRange['endDate']."' AND 
                                 `trading_date` >= '".$dateRange['startDate']."' AND
                                 symbol = '$symbol' 
@@ -82,7 +85,7 @@ function getDataInDateRange($symbol, $dateRange) {
     $dateInDateRange = [];
     $dbConn = $GLOBALS['conn'];
 
-    $sqlGetAllPrevDateDate = "SELECT * FROM `daily_security_archive` 
+    $sqlGetAllPrevDateDate = "SELECT * FROM `security_vol_devlivery_day_wise` 
                                 WHERE  `trading_date` <= '".$dateRange['endDate']."' AND 
                                 `trading_date` >= '".$dateRange['startDate']."' AND
                                 symbol = '$symbol' 
@@ -128,7 +131,8 @@ function getAvgDeliveryPercentage($symbol, $currentDate, $avgNoOfDay) {
     $totalDeliveryPercentage = 0;
     $dbConn = $GLOBALS['conn'];
 
-    $sqlGetAllPrevDateDate = "SELECT  delivery_percentage AS avgDeliveryPercentage  FROM `daily_security_archive` 
+    $sqlGetAllPrevDateDate = "SELECT  delivery_percentage AS avgDeliveryPercentage  
+                                FROM `security_vol_devlivery_day_wise` 
                                 WHERE  `trading_date` <= '$currentDate' AND 
                                 symbol = '$symbol' 
                                 ORDER BY `trading_date` DESC LIMIT $avgNoOfDay";
@@ -155,7 +159,7 @@ function getDataByDateAndSymbol($symbol, $currentDate) {
     $todaydata = '';
     $dbConn = $GLOBALS['conn'];
 
-    $sqlGetAllPrevDateDate = "SELECT * FROM `daily_security_archive` 
+    $sqlGetAllPrevDateDate = "SELECT * FROM `security_vol_devlivery_day_wise` 
                             WHERE  `trading_date` = '$currentDate' AND  symbol = '$symbol'";
 
     $res  = $dbConn->query($sqlGetAllPrevDateDate);
@@ -514,7 +518,7 @@ function insertDelivaryBreakoutInsideBar($parentData, $completeCandleInsideFlag,
 } 
 
 function downloadFile($fileName, $url) {
-
+    
     $opts = array('http'=>array('header' => "User-Agent:MyAgent/1.0\r\n")); 
     //Basically adding headers to the request
     $context = stream_context_create($opts);
@@ -573,109 +577,8 @@ function generateCSVFileFromArray($headerArray, $dataArray, $fileName) {
     fclose($fp);
 }
 
-function getLastWeekDateRange($curDate) {
-
-    $dateRange = ["startDate" => $curDate, "endDate" => $curDate];
-    
-    //echo date("2020-06-15", strtotime('last week'));
-
-    //print date('Y-m-d', strtotime('sunday', strtotime("last week  $curDate")));
-
-    $dateRange['startDate'] = date('Y-m-d', strtotime('monday', strtotime("last week  $curDate")));
-
-    $dateRange['endDate'] =  date('Y-m-d', strtotime('sunday', strtotime("last week  $curDate")));
-    
-    // echo  "\n";
-    // print_r($dateRange);
-
-    return $dateRange;
-}
-
-function getCurrentWeekDateRange($curDate) {
-
-    $dateRange = ["startDate" => $curDate, "endDate" => $curDate];
-    
-    //echo date("2020-06-15", strtotime('last week'));
-
-    //print date('Y-m-d', strtotime('sunday', strtotime("last week  $curDate")));
-    //$curDate = "2020-07-12";
-    $dateRange['startDate'] = date('Y-m-d', strtotime(' last monday', strtotime($curDate)));
-
-    $dateRange['endDate'] =  date('Y-m-d', strtotime(' last friday', strtotime($curDate)));
-    
-    // echo  "\n";
-    // print_r($dateRange);
-    return $dateRange;
-}
 
 
-function getLastMonthDateRange($curDate) {
-
-    $dateRange = ["startDate" => $curDate, "endDate" => $curDate];
-    
-    //echo date("2020-06-15", strtotime('last week'));
-
-    //print date('Y-m-d', strtotime("last day of last month  2020-05-25"));
-
-    $dateRange['startDate'] = date('Y-m-d', strtotime("first day of last month  $curDate"));
-
-    $dateRange['endDate'] =  date('Y-m-d', strtotime("last day of last month  $curDate"));
-    
-    // echo  "\n";
-    // print_r($dateRange);
-
-    return $dateRange;
-}
-
-//date passed are in fromate yyyy-mm-dd
-function isWeekend($date) {
-    $weekendFlag = 0;
-    $weekendFlag = (date('N', strtotime($date)) >= 6)?1:0;
-    return $weekendFlag;
-}
-
-//date passed are in fromate yyyy-mm-dd
-function isNseHoliday($date) {
-
-    // convert to mm/dd/yy - 01/07/20
-    $convertDate = date('m/d/y', strtotime($date));
-    
-    $dbConn = $GLOBALS['conn'];
-
-    $getHolidaySql = "SELECT * FROM holiday_list_nse WHERE holiday_date = '$convertDate'";
-
-    //echo $getHolidaySql;
-
-    $res = $dbConn->query($getHolidaySql);
-    //while($row = mysqli_fetch_assoc($res)) {   
-
-    if ( $res && (mysqli_num_rows($res) > 0 )) {
-        return 1;
-    }
-   
-    return 0;
-}
-
-function dateDisplay($date) {
-    return date('d/m/y', strtotime($date));
-}
-
-function dateCompare($startDate, $endDate) {
-    
-    $startTime = strtotime($startDate);
-    $endTime = strtotime($endDate);
-
-    if($endTime > $startTime)
-    return 1;
-
-    return 0;
-}
-
-function checkValidDate($date) {
-    $tempDate = explode('-', $date);
-    // checkdate(month, day, year)
-    return checkdate($tempDate[1], $tempDate[2], $tempDate[0]);
-  }
 
 
 function generateRangeComment($symbol, $tradeDate) {
@@ -798,7 +701,7 @@ function getNiftyIndexStocks($nIndex) {
         $nIndex = " nse_index = 'n50' OR nse_index = 'n100' OR nse_index = 'n200' OR nse_index = 'n500'  ";
     }
 
-    $getNse50Sql = "SELECT symbol  FROM nse_index where $nIndex";
+    $getNse50Sql = "SELECT symbol  FROM nse_index where $nIndex AND is_active = 1";
     
     //echo $getNse50Sql;
 
@@ -831,59 +734,7 @@ function formatNumber($num, $prec) {
 
 }
 
-function updateFullBhavCopyToDB($bhavDataFullfileName, $nIndex) {
 
-    $conn = $GLOBALS['conn'];
-
-    $nIndexArray = getNiftyIndexStocks($nIndex);
-
-    //print_r($nIndexArray);
-
-    $file = fopen($bhavDataFullfileName, "r");
-
-    $i = 0;
-
-    while (($getData = fgetcsv($file, 10000, ",")) !== FALSE) {
-
-        // ignoring the first row
-        if(strtolower($getData[0]) == strtolower('symbol')) {
-            continue;
-        }
-
-        // if($i > 10)
-        // break;
-        // $i++;
-
-        // check if series is EQ only
-        if(trim(strtolower($getData[1])) != strtolower('eq')) {
-            continue;
-        }
-
-        // check if nifty 50 only
-        if(!in_array($getData[0], $nIndexArray) ) {
-            continue;
-        }
-
-        $trade_date = date("Y-m-d", strtotime($getData[2]));
-
-        //echo $trade_date."\n";
-        
-        $sql = "INSERT INTO security_vol_devlivery_day_wise  (symbol, series, `trading_date`, prev_close, open_price, high_price, low_price, last_price, close_price, avg_price, total_trade_quantity, turn_over, no_of_trade, deliverable_qty, delivery_percentage) 
-        VALUES 
-        ('".$getData[0]."','".$getData[1]."','".$trade_date."','".$getData[3]."','".$getData[4]."','".$getData[5]."','".$getData[6]."','".$getData[7]."','".$getData[8]."','".$getData[9]."','".$getData[10]."','".$getData[11]."','".$getData[12]."','".$getData[13]."','".$getData[14]."')";
-        
-
-        //echo $sql;
-        $result = mysqli_query($conn, $sql);
-        //exit;
-
-        if($result)
-        $i++;
-        
-    }
-
-    return $i;
-}
 
 
 function insert_prev_session_date($currTradeDate, $prevTradeDate) {
@@ -919,386 +770,5 @@ function validate_prev_session_date($currTradeDate, $prevTradeDate) {
     return 0;
 
 } 
-/* function used to process the day end data in security_vol_devlivery_day_wise table after raw data uploaded to table
-$symbolArray : ['infy', 'hdfc']
-$dateRangeArray : ['startdate' => 2020-08-05", 'endDate' => "2020-09-05",]
-*/
-
-function processFullBhavCopyReport($symbolArray, $dateRangeArray) {
-
-    $conn = $GLOBALS['conn'];
-
-    $dataInDateRange = getAllTradingDaysInDateRange($dateRangeArray);
-
-    //print_r($dataInDateRange);
-
-    if(count($dataInDateRange) > 0) {
-
-        foreach ($symbolArray as $symbol) {
-
-            echo "\n Updating for : ".$symbol." time :".date('H:i:s.')."\n";
-
-            foreach ($dataInDateRange as $tradeDate) {
-
-                // get prev trading session date
-                // Hard coded to infy, since infy has all data from jan, 2018, so that a exact prev trading session can be found 
-                $prevTradingDate = getPrevTradingDate("INFY", $tradeDate);
-
-                if($prevTradingDate == '') {
-                    echo "\n Prev session day  not found ".$prevTradingDate." for  $symbol\n";
-                    continue;
-                }
-
-                // insert_prev_session_date($tradeDate, $prevTradingDate);
-                // continue;
-
-                if(!validate_prev_session_date($tradeDate, $prevTradingDate)){
-                    echo "\n Prev session day validation failed for date ".$tradeDate." and symbol  $symbol\n";
-                    exit;
-                }
-
-                //echo "\n Curr Day: ".$tradeDate." :: Prev Day: ".$prevTradingDate." symbol  $symbol\n";
-
-                $currTradingDayData = getDataByDateAndSymbolNew($symbol, $tradeDate);
-
-                if($currTradingDayData == '') {
-                    echo "\n Current daye Data not found : ".$tradeDate." for $symbol\n";
-                    continue;
-                }
-
-                //print_r($currTradingDayData);
-
-                // get prev trading day if exists in DB
-                if($prevTradingDate != '') {
-
-                    //echo "\n Updating for Date : ".$tradeDate." :: Prev Trade Date: ".$prevTradingDate." \n";
-
-                    $prevTradingDayData = getDataByDateAndSymbolNew($symbol, $prevTradingDate);
-
-                    //if prev day data present, then compare today with Prev day and update DB
-                    if($prevTradingDayData != '')                    
-                    compareCurrAndPrevDayDataAndUpdateDB($currTradingDayData,  $prevTradingDayData, $symbol);
-                    else 
-                    echo "\n Prev date data not found : ".$prevTradingDate." for $symbol\n";
-
-                }
-            }
-        }
-    }
-}
-
-function compareCurrAndPrevDayDataAndUpdateDB($currTradingDayData,  $prevTradingDayData, $symbol) {
-
-    $conn = $GLOBALS['conn'];
-    echo "\n Curr Day: ".$currTradingDayData['trading_date']." :: Prev Day: ".$prevTradingDayData['trading_date']." symbol  $symbol\n";
-    echo "\n curr TTQ- ".$currTradingDayData['total_trade_quantity']." prev TTQ- ".$prevTradingDayData['total_trade_quantity']."\n";
-
-    $volRratio = formatNumber($currTradingDayData['total_trade_quantity'] / $prevTradingDayData['total_trade_quantity'], 2);
-    $deliveryRratio = formatNumber($currTradingDayData['deliverable_qty'] / $prevTradingDayData['deliverable_qty'], 2);
-
-    $isDpIncrease =  0;
-    if($currTradingDayData['delivery_percentage'] > $prevTradingDayData['delivery_percentage'])
-    $isDpIncrease =  1;
-
-    $candleColor = 'black';
-    if($currTradingDayData['close_price'] > $currTradingDayData['open_price'])
-    $candleColor = 'green';
-    else if($currTradingDayData['close_price'] < $currTradingDayData['open_price'])
-    $candleColor = 'red';
-
-    $priceChangePercentageClosedBased = formatNumber((($currTradingDayData['close_price'] - $prevTradingDayData['close_price'])/$prevTradingDayData['close_price']) * 100, 2);
-
-    $priceChangePercentageOpenBased =  formatNumber((($currTradingDayData['last_price'] - $prevTradingDayData['last_price'])/$prevTradingDayData['last_price']) * 100, 2);
-
-    $isPriceInside = checkIfBodyInside($prevTradingDayData, $currTradingDayData); 
-
-    $currTradingDay = $currTradingDayData['trading_date'];
-
-    $sql = "UPDATE  security_vol_devlivery_day_wise  SET 
-            vol_ratio = $volRratio,
-            delivery_ratio = $deliveryRratio,
-            is_dp_increase = $isDpIncrease,
-            candle_type = $isPriceInside,
-            candle_color = '$candleColor',
-            price_change_percentage = $priceChangePercentageClosedBased,
-            pre_open_price_percentage = $priceChangePercentageOpenBased
-            WHERE trading_date= '$currTradingDay'
-            AND  symbol = '$symbol'";
-    
-
-    //echo $sql;
-    $result = mysqli_query($conn, $sql);
-    //exit;
-
-    // if($result)
-    // $i++;
-}
-
-
-
-/* Get pre open price for a symbol on given date
-returns 0 if not found
-*/
-function getPreOpenPrice($symbol, $tradeDate) {
-    $preOpenPrice = 0;
-    $dbConn = $GLOBALS['conn'];
-
-    $sqlGetPreOpenSql = "SELECT final_price as pre_open_price FROM `pre_open_data` 
-                            WHERE  `trade_date` = '$tradeDate' AND  symbol = '$symbol'";
-
-    // $sqlGetPreOpenSql = "SELECT open_price as pre_open_price FROM `security_vol_devlivery_day_wise` 
-    //                 WHERE  `trading_date` = '$tradeDate' AND  symbol = '$symbol'";
-
-    $res  = $dbConn->query($sqlGetPreOpenSql);
-
-    //echo $sqlGetPreOpenSql;
-
-    while($row = mysqli_fetch_assoc($res)) {   
-
-        $preOpenPrice = $row['pre_open_price'];
-
-    }
-
-    return $preOpenPrice;
-}
-
-/*
-Desc: Analyse pre-open data and update DB
-date: 2020-08-15
-inxed: like n200 or nfo 
-*/
-function analysePreOpenDate($tradeDate, $nIndex) {
-
-    $nIndexArray = getNiftyIndexStocks($nIndex);
-
-    //$nIndexArray = ['infy'];
-
-    foreach ($nIndexArray as $symbol) {
-
-        $preOpenPrice = getPreOpenPrice($symbol, $tradeDate);
-
-        // if no pre open price found
-        If($preOpenPrice == 0) {
-            continue;
-        }
-
-        // get prev trading session date
-        // Hard coded to infy, since infy has all data from jan, 2018, so that a exact prev trading session can be found 
-        $prevTradingDate = getPrevTradingDate("INFY", $tradeDate);
-
-        echo "\n Prev session day : ".$prevTradingDate."\n";
-
-        // if last trading session not found
-        If($prevTradingDate == '') {
-            continue;
-        }
-
-        $prevTradingDayData = getDataByDateAndSymbolNew($symbol, $prevTradingDate);
-
-        //if prev day data present, then compare today with Prev day and update DB
-        if($prevTradingDayData == '')  {
-            echo "\n Prev date data not found : ".$prevTradingDate."\n";
-            continue;
-        }
-
-        $isInside = checkIfDayWasInside($symbol, $prevTradingDate);
-
-        // skip if prev day is not an inside candle
-        if(!$isInside)
-        continue;
-
-        $motherCandle = findRangeForInsdieCandle($symbol, $prevTradingDate);
-
-        echo "\n Mother candle  : ".$motherCandle['trading_date']." for date $prevTradingDate evaluate on $tradeDate\n";
-
-        // if mother candle found, validate if the range valid till today
-        if(count($motherCandle)) {
-
-            $ifRangeValid = validateRangeWithinDates($symbol, $prevTradingDate, $motherCandle);
-
-            if($ifRangeValid) {
-                
-                echo "\n An Valid Range found with mother candle  : ".$motherCandle['trading_date']." evaluate on $tradeDate\n";
-
-                $probableAction = '';
-                if($preOpenPrice >= $motherCandle['high_price']) {
-                    $probableAction = "buy";
-                } else if($preOpenPrice <= $motherCandle['low_price']) {
-                    $probableAction = "sell";
-                }
-
-                echo "\n Pre Open Price: ".$preOpenPrice." High Price:". $motherCandle['high_price']." Low Price:". $motherCandle['low_price']." Action: ".$probableAction."\n";
-
-                if($probableAction == 'buy' || $probableAction == 'sell') {
-                    insertPreOpenRangeBO($symbol, $tradeDate, $motherCandle, $preOpenPrice, 1, 1, $probableAction); 
-                }              
-            }
-        }
-     }
-}
-
-function insertPreOpenRangeBO($symbol, $tradeDate, $motherCandle, $tradeDateOpenPrice, $noOfDaysInRange, $noOfBoInRange, $probableAction) {
-
-    $dbConn = $GLOBALS['conn'];
-
-    $sqlGetAllPrevDateDate = "INSERT INTO pre_open_range_BO
-                            SET  symbol = '$symbol',
-                            monther_candle_date = '".$motherCandle['trading_date']."',
-                            trade_date = '$tradeDate',                           
-                            mother_candle_high = '".$motherCandle['high_price']."',
-                            mother_candle_low = '".$motherCandle['low_price']."',
-                            trade_day_open_price  = '$tradeDateOpenPrice',
-                            probable_action  = '$probableAction',
-                            no_of_candle_in_range  = '$noOfDaysInRange',
-                            no_BO_in_range = '$noOfBoInRange'";
-
-    //echo $sqlGetAllPrevDateDate;
-    $res  = $dbConn->query($sqlGetAllPrevDateDate);
-
-}
-/*
-Desc: Check if the day is inside bar
-date: 2020-08-15
-symbol: infy, hdfc
-*/
-function checkIfDayWasInside($symbol, $tradeDate) {
-
-    $isInside = 0;
-    $dbConn = $GLOBALS['conn'];
-
-    $sqlGetAllPrevDateDate = "SELECT candle_type FROM `security_vol_devlivery_day_wise` 
-                            WHERE  `trading_date` = '$tradeDate' 
-                            AND  symbol = '$symbol'
-                            AND candle_type = 1";
-
-    $res  = $dbConn->query($sqlGetAllPrevDateDate);
-
-    //echo $sqlGetAllPrevDateDate;
-
-    while($row = mysqli_fetch_assoc($res)) {   
-
-        $isInside = $row['candle_type'];
-
-    }
-
-    return $isInside;
-    
-}
-
-/*
-Desc: checks for range and mother candle, retuns data of mother candle
-date: , this is the from which need to see all candle backward, format like, 2020-08-15
-symbol: infy, hdfc
-*/
-function findRangeForInsdieCandle($symbol, $tradeDate) {
-
-    $motherCandle = [];
-    $dbConn = $GLOBALS['conn'];
-
-    // getting all the records from todays date till the day where there was no inside
-    $sqlGetAllPrevDateDate = "SELECT * FROM `security_vol_devlivery_day_wise` 
-                                WHERE  `trading_date` < '$tradeDate' 
-                                AND candle_type != 1
-                                AND symbol = '$symbol' 
-                                ORDER BY `trading_date` DESC LIMIT 1";
-
-    //echo $sqlGetAllPrevDateDate;
-
-    $res  = $dbConn->query($sqlGetAllPrevDateDate);
-
-    while($row = mysqli_fetch_assoc($res)) {
-
-        $motherCandle = $row;
-
-    }
-
-    return $motherCandle;
-
-}
-
-
-/*
-Desc: Basically this checks if there was break out happened in between 
-and also price never closed above high of mother candle nor below of the mother candle
-symbol: infy, hdfc
-*/
-function validateRangeWithinDates($symbol, $currDate, $motherCandle) {
-
-    $isValidRange = 0;
-    $dbConn = $GLOBALS['conn'];
-
-    $ifpriceBOHappened = checkIfPriceCloseBeyondRanges($symbol, $currDate, $motherCandle);
-
-     // checking Del & vol Bo only if price BO Not happened
-    if(!$ifpriceBOHappened) {     
-        
-        // checking  if vol & del BO Only if price is within mother candle range
-        $ifVolDelBOHappened = checkIfVolAndDeliveryBOInDateRange($symbol, $currDate, $motherCandle['trading_date']);
-        if($ifVolDelBOHappened)
-        $isValidRange = 1;
-
-    }
-
-    return $isValidRange;
-}  
-
-/*
-Desc: Check if  Vol & Delivery breakeout happened within range and returns the no of times if any else 0
-symbol: infy, hdfc
-starrt: 2020-08-02
-enddate: 2020-08-08
-*/
-function checkIfVolAndDeliveryBOInDateRange($symbol, $startDate, $endDate) {
-
-    $ifBoHappened = 0;
-    $dbConn = $GLOBALS['conn'];
-
-
-    $sqlCheckIfBOInDateRange = "SELECT * FROM `security_vol_devlivery_day_wise` 
-                                WHERE  `trading_date` < '".$startDate."' AND 
-                                `trading_date` > '".$endDate."'
-                                AND symbol = '$symbol' 
-                                AND vol_ratio >= 1
-                                AND delivery_ratio >= 1";
-    //echo $sqlCheckIfBOInDateRange;
-
-    $res  = $dbConn->query($sqlCheckIfBOInDateRange);
-
-    if($res)
-    $ifBoHappened = mysqli_num_rows($res);
-
-    return $ifBoHappened;
-
-}
-
-/*
-Desc: Check if  closes aboves or below the range within that range, to get it invalidated, return 0 or 1
-symbol: infy, hdfc
-starrt: 2020-08-02
-motherCandle -  mother candle detains in the range
-*/
-function checkIfPriceCloseBeyondRanges($symbol, $startDate, $motherCandle) {
-
-    $ifPriceBOHappened = 0;
-    $dbConn = $GLOBALS['conn'];
-
-
-    $sqlCheckIfBOInDateRange = "SELECT * FROM `security_vol_devlivery_day_wise` 
-                                    WHERE  `trading_date` < '".$startDate."' AND 
-                                    `trading_date` > '".$motherCandle['trading_date']."' 
-                                    AND symbol = '$symbol' 
-                                    AND (last_price > '".$motherCandle['high_price']."'
-                                        OR last_price < '".$motherCandle['low_price']."')";
-
-    //echo $sqlCheckIfBOInDateRange;
-
-    $res  = $dbConn->query($sqlCheckIfBOInDateRange);
-
-    if($res)
-    $ifPriceBOHappened = mysqli_num_rows($res);
-
-    return $ifPriceBOHappened;
-
-}
 
 ?>

@@ -9,6 +9,7 @@ else $niftyIndex = 'n50';
 
 //echo $niftyIndex;
 
+/*
 if (file_exists($bhavDataFullfileName)) {
     unlink($bhavDataFullfileName);
 }
@@ -40,7 +41,7 @@ $nse50Array = explode(',', $getNse50Row['nse50']);
 // print_r($nse50Array);
 // exit;
 
-//$bhavDataFullfileName = "NSE-Data/Full-dowload-report/".$bhavDataFullfileName.".csv";    
+ 
 
 $file = fopen($bhavDataFullfileName, "r");
 
@@ -95,6 +96,14 @@ while (($getData = fgetcsv($file, 10000, ",")) !== FALSE) {
 //     echo "There is error in the downloaded file, please check and run it again, it did not find all 100 stocks.Exiting...";
 //     exit;
 // }
+
+*/
+$trade_date = "2020-09-04";
+// donwload and process full bhav copy report new
+downloadAndProcessFullBhavCopyReport($trade_date, 'n200');
+
+// echo $niftyIndex;
+// exit;
 
 if($niftyIndex == 'n50') {
     generateDailyDqANDDpReport($trade_date);
